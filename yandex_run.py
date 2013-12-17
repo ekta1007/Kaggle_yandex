@@ -1,7 +1,7 @@
 #executing & running the file for the session objects parsed
 
 import gzip, yandex_parse
-f = gzip.open('train.gz', 'rb') #assuming train.gz is located in data/
+f = gzip.open('train.gz', 'rb') #assuming train.gz is located in same base location
 sp = yandex_parse.parse_sessions(f)
 sessions = [sp.next() for i in range(10)]
 
