@@ -23,15 +23,15 @@ data = f.read(4000)
 print data
 print "done"
 
-# process N lines at a time using islice - concept from Stackoverflow
+# process N lines at a time using islice 
 #fetching & printing 1st N lines from a gz file 
 import gzip
 from itertools import islice
 N = 20
 infile = gzip.GzipFile(fileobj=open('C:/Users/Ekta.Grover/Desktop/Downloads/yandex/train.gz', 'rb'))
-lines_gen = islice(infile, N)
+next_n_lines = islice(infile, N)
 i=1
-for lines in lines_gen:
+for lines in next_n_lines:
      print lines
 
 
