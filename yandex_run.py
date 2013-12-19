@@ -52,20 +52,23 @@ with infile as f:
   
 # Searching for userid's within the data - we observe that userids just occur within rows with session metadata , ie. with "M"
 # The assumption will be - we will either work on a sampled file, or just use this to validate a hypothesis
-import gzip
+import gzip 
 from itertools import islice
-N = 20
-infile = gzip.GzipFile(fileobj=open('C:/Users/Ekta.Grover/Desktop/Downloads/yandex/test.gz', 'rb'))
-lines_gen = islice(infile, N)
-i=1
+N = 200
 userid=[]
 searchphrase ='M'
-for lines in lines_gen:
-    if searchphrase in lines:
-        # print lines for lines with 'M' session metadata - this will give 
-        #getting userid's from the session metadata line
-        userid.append(lines.split()[-1])
-print set(userid)  # doing a set to just get the unique set of users in the userid list
-# we could see the len(userid) to see how much repetition we have in the train file
+infile = gzip.GzipFile(fileobj=open('C:/Users/Ekta.Grover/Desktop/Downloads/yandex/test.gz', 'rb'))
+with infile as f:
+    while True:
+        next_n_lines = islice(f, N)
+        for lines in next_n_lines:
+            if searchphrase in lines:
+                userid.append(lines.split()[-1])
+        if not next_n_lines:
+            break
+print "Total userid records (with session metadata) in train file %d " %len(userid)
+print "Total unique userids records in train file %d" %len(set(userid))  # doing a set to just get the unique set of users in the userid list
+
+
 
           
