@@ -18,6 +18,34 @@ print "success"
 # reading part of the gzip file 
 import gzip
 f = gzip.GzipFile(fileobj=open('C:/Users/Ekta.Grover/Desktop/Downloads/yandex/train.gz', 'rb'))
+#number of lines in a file len(f.readlines())
 data = f.read(4000)
 print data
 print "done"
+
+# process N lines at a time using islice - concept from Stackoverflow
+#fetching & printing 1st N lines from a gz file 
+import gzip
+from itertools import islice
+N = 20
+infile = gzip.GzipFile(fileobj=open('C:/Users/Ekta.Grover/Desktop/Downloads/yandex/train.gz', 'rb'))
+lines_gen = islice(infile, N)
+i=1
+for lines in lines_gen:
+     print lines
+
+
+
+#or printing the entire file iteratively - note this will print all, and we have explictly put a wait for see the next "N" records
+import gzip,time
+N=20
+infile = gzip.GzipFile(fileobj=open('C:/Users/Ekta.Grover/Desktop/Downloads/yandex/train.gz', 'rb'))
+with infile as f:
+    while True:
+        next_n_lines = islice(f, N)
+        for lines in next_n_lines:
+            print lines
+        time.sleep(5) 
+        if not next_n_lines:
+            break
+          
