@@ -1,6 +1,7 @@
-#executing & running the file for the session objects parsed
 # rough notes will path things up after the project is complete
 
+
+#executing & running the file for the session objects parsed
 import gzip, yandex_parse
 f = gzip.open('C:/Users/Ekta.Grover/Desktop/Downloads/yandex/train.gz', 'rb') 
 sp = yandex_parse.parse_sessions(f)
@@ -48,4 +49,23 @@ with infile as f:
         time.sleep(5) 
         if not next_n_lines:
             break
+  
+# Searching for userid's within the data - we observe that userids just occur within rows with session metadata , ie. with "M"
+# The assumption will be - we will either work on a sampled file, or just use this to validate a hypothesis
+import gzip
+from itertools import islice
+N = 20
+infile = gzip.GzipFile(fileobj=open('C:/Users/Ekta.Grover/Desktop/Downloads/yandex/test.gz', 'rb'))
+lines_gen = islice(infile, N)
+i=1
+userid=[]
+searchphrase ='M'
+for lines in lines_gen:
+    if searchphrase in lines:
+        # print lines for lines with 'M' session metadata - this will give 
+        #getting userid's from the session metadata line
+        userid.append(lines.split()[-1])
+print set(userid)  # doing a set to just get the unique set of users in the userid list
+# we could see the len(userid) to see how much repetition we have in the train file
+
           
